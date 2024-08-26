@@ -63,7 +63,7 @@ const Displayspecific = () => {
                                                         <div class="d-flex flex-column mt-4">
                                                             <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-sm" type="button">Details</button>
                                                             <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary btn-sm mt-2" type="button">
-                                                                Add to wishlist
+                                                                Add to Cart
                                                             </button>
                                                         </div>
                                                     </div>

@@ -1,40 +1,46 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+
 
 const Navbar = () => {
+  const names = useSelector(state => state.products)
+  const navigate = useNavigate()
+
+
+  const gotoitem = (id) => {
+    navigate("/specificproduct", { state: { key: id } })
+  }
+
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">Navbar</a>
+          <Link className="navbar-brand" to="#">Navbar</Link>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/">Home</a>
+                <Link className="nav-link active" aria-current="page" to="/">Home</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">About us</a>
+                <Link className="nav-link" to="/about">About us</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">Contact us</a>
+                <Link className="nav-link" to="/contact">Contact us</Link>
               </li>
               <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   products
-                </a>
-                <ul className="dropdown-menu">
-                  <li><a className="dropdown-item" href="#">Ultra HD TV</a></li>
-                  <li><a className="dropdown-item" href="#">Smart Refrigerator</a></li>
-                  <li><a className="dropdown-item" href="#">Bluetooth Speaker</a></li>
-                  <li><a className="dropdown-item" href="#">Laptop</a></li>
-                  <li><a className="dropdown-item" href="#">Air Conditioner</a></li>
-                  <li><a className="dropdown-item" href="#">Smartwatch</a></li>
-                  <li><a className="dropdown-item" href="#">Digital Camera</a></li>
-                  <li><a className="dropdown-item" href="#">Washing Machine</a></li>
-                  <li><a className="dropdown-item" href="#">MobilePhone</a></li>
+                </Link>
+                <ul className="dropdown-menu" >
+                  {
+                    names?.length > 0 && names.map((name) => {
+                      return <li className="dropdown-item" style={{ cursor: 'pointer' }} onClick={() => gotoitem(name.id)}>{name.name}</li>
+                    })
+                  }
                 </ul>
               </li>
 
@@ -46,10 +52,10 @@ const Navbar = () => {
             </ul>
             <ul className="navbar-nav me-auto mr-0 mb-2">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/login">Login</a>
+                <Link className="nav-link active" aria-current="page" to="/login">Login</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/signup">Signup</a>
+                <Link className="nav-link" to="/signup">Signup</Link>
               </li>
             </ul>
           </div>

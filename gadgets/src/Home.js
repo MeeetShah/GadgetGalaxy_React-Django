@@ -31,6 +31,7 @@ const Home = () => {
                 <h1>Product List</h1>
                 <Allproducts /> {/* No props needed here */}
             </div>
+           
 
         </>
     )
