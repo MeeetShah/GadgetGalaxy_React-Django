@@ -1,11 +1,27 @@
+import logging
 from django.shortcuts import render
 
 # Create your views here.
-from rest_framework import generics
-from .models import Product,ElectronicProduct
+
+from .models import Product,ElectronicProduct,Wishlist
 from .serializers import ProductSerializer,ElectronicProductSerializer
 from rest_framework.permissions import AllowAny
-from rest_framework import viewsets
+from rest_framework import viewsets,status,generics
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from .serializers import WishlistSerializer
+from django.contrib.auth.models import User
+
+logger = logging.getLogger('simple_example')
+logger.setLevel(logging.DEBUG)
+console = logging.StreamHandler()
+console.setLevel(level=logging.DEBUG)
+formatter =  logging.Formatter('%(levelname)s : %(message)s')
+console.setFormatter(formatter)
+logger.addHandler(console)
+
+
 
 class ProductListView(generics.ListAPIView):
     queryset = Product.objects.all()
@@ -18,3 +34,79 @@ class ElectronicProductViewSet(generics.ListAPIView):
     queryset = ElectronicProduct.objects.all()
     serializer_class = ElectronicProductSerializer
     permission_classes = [AllowAny] 
+
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def add_to_wishlist(request):
+    email = request.data.get('email')
+    product_id = request.data.get('product')
+
+    # Validate the email and product ID
+    try:
+        logger.debug('simple message' + email)
+        user = User.objects.get(email=email)  # Use related name from UserProfile
+        product = ElectronicProduct.objects.get(id=product_id)
+    except User.DoesNotExist:
+        return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+    except ElectronicProduct.DoesNotExist:
+        return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    # Check if the wishlist entry already exists
+    if Wishlist.objects.filter(user=user, product=product).exists():
+        return Response({"error": "This product is already in your wishlist"}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Create the wishlist entry
+    wishlist = Wishlist(user=user, product=product)
+    wishlist.save()
+
+    # Serialize and return the new wishlist entry
+    serializer = WishlistSerializer(wishlist)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def get_wishlist_by_email(request):
+    email = request.data.get('email')
+
+    # Validate the email parameter
+    if not email:
+        return Response({"error": "Email parameter is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        user = User.objects.get(email=email)
+    except User.DoesNotExist:
+        return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+    # Get all wishlist items for the user
+    wishlist = Wishlist.objects.filter(user=user)
+    serializer = WishlistSerializer(wishlist, many=True)
+
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def remove_from_wishlist(request):
+    email = request.data.get('email')
+    product_id = request.data.get('product')
+
+    # Validate the email and product ID
+    if not email or not product_id:
+        return Response({"error": "Email and product_id are required"}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        user = User.objects.get(email=email)
+        product = ElectronicProduct.objects.get(id=product_id)
+    except User.DoesNotExist:
+        return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+    except ElectronicProduct.DoesNotExist:
+        return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    # Find the wishlist entry
+    try:
+        wishlist_item = Wishlist.objects.get(user=user, product=product)
+        wishlist_item.delete()  # Remove the item from the wishlist
+        return Response({"message": "Item removed from wishlist"}, status=status.HTTP_200_OK)
+    except Wishlist.DoesNotExist:
+        return Response({"error": "Item not found in wishlist"}, status=status.HTTP_404_NOT_FOUND)

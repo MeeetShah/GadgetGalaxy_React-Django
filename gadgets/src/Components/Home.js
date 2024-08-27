@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import Allproducts from './Components/Allproducts'
+import Allproducts from './Allproducts'
 import axios from 'axios'
-import { apis } from './api'
+import { apis } from '../api'
 import { useDispatch } from 'react-redux'
-import { storeProducts } from './features/products'
+import { storeProducts } from '../features/products'
 
 const Home = () => {
 
@@ -31,7 +31,7 @@ const Home = () => {
                 <h1>Product List</h1>
                 <Allproducts /> {/* No props needed here */}
             </div>
-           
+
 
         </>
     )
