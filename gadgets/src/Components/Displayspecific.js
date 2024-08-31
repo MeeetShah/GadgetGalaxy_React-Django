@@ -1,13 +1,39 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
+import { apis } from '../api';
+
 const Displayspecific = () => {
 
     const specificproduct = useSelector(state => state.specificproducts)
     console.log("specific product", specificproduct);
+    const login = useSelector(state => state.login)
+    console.log("loggedin = ", login);
 
     const { state } = useLocation()
     console.log(state);
+
+    const addtocart = async (id) => {
+        console.log(login, id);
+        try {
+            const response = await axios.post(apis.addtocart, {
+                email: login,
+                product: id
+            });
+
+
+        } catch (error) {
+            if (error.response) {
+                console.log("Internal server error");
+
+
+            } else {
+                console.log("error in addtocart");
+            }
+        }
+    }
+
 
 
     return (
@@ -62,7 +88,7 @@ const Displayspecific = () => {
                                                         <h6 class="text-success">Free shipping</h6>
                                                         <div class="d-flex flex-column mt-4">
                                                             <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-sm" type="button">Details</button>
-                                                            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary btn-sm mt-2" type="button">
+                                                            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary btn-sm mt-2" onClick={() => { addtocart(product.id) }} type="button">
                                                                 Add to Cart
                                                             </button>
                                                         </div>

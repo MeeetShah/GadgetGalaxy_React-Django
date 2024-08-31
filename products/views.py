@@ -65,10 +65,10 @@ def add_to_wishlist(request):
     serializer = WishlistSerializer(wishlist)
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-@api_view(['POST'])
+@api_view(['GET'])
 @permission_classes([AllowAny])
 def get_wishlist_by_email(request):
-    email = request.data.get('email')
+    email = request.query_params.get('email')
 
     # Validate the email parameter
     if not email:

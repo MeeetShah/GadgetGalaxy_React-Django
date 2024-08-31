@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Allproducts from './Allproducts'
 import axios from 'axios'
 import { apis } from '../api'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { storeProducts } from '../features/products'
 
 const Home = () => {
@@ -10,6 +10,8 @@ const Home = () => {
 
     const [error, setError] = useState(null);
     const dispatch = useDispatch();
+
+
 
 
     useEffect(() => {
