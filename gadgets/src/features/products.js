@@ -2,9 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 // import { storeProducts } from '../actions/productsActions';
 
 const initialState = {
-    products: {},
+    products: [],
     login: localStorage.getItem('email'),
-    specificproducts: {},
+    specificproducts:[],
     cart: {}
 }
 

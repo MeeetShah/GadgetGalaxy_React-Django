@@ -38,7 +38,7 @@ const Navbar = () => {
                 <ul className="dropdown-menu" >
                   {
                     names?.length > 0 && names.map((name) => {
-                      return <li className="dropdown-item" style={{ cursor: 'pointer' }} onClick={() => gotoitem(name.id)}>{name.name}</li>
+                      return <li key={names.id} className="dropdown-item" style={{ cursor: 'pointer' }} onClick={() => gotoitem(name.id)}>{name.name}</li>
                     })
                   }
                 </ul>
@@ -63,7 +63,7 @@ const Navbar = () => {
               <li className="nav-item">
                 <Link className="nav-link" to="/cart">Cart</Link>
               </li>
-            
+
             </ul>
           </div>
 
