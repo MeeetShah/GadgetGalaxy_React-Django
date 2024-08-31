@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { apis } from '../api'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
+import { specificproduct } from '../features/products'
 
 import { cart as updateCart } from '../features/products'
 
@@ -9,6 +10,7 @@ import { cart as updateCart } from '../features/products'
 
 const Cartpage = () => {
     const email = useSelector(state => state.login)
+    const specificproducts = useSelector(state => state.specificproduct)
 
     const dispatch = useDispatch()
 
@@ -72,7 +74,7 @@ const Cartpage = () => {
 
                                                 <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
 
-                                                    <p><strong>Blue denim shirt</strong></p>
+                                                    <p><strong>{item.product}</strong></p>
                                                     <p>Color: blue</p>
                                                     <p>Size: M</p>
                                                     <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-sm me-1 mb-2" data-mdb-tooltip-init
