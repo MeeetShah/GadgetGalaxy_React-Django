@@ -13,6 +13,7 @@ from rest_framework.decorators import api_view, permission_classes
 from .serializers import WishlistSerializer
 from django.contrib.auth.models import User
 
+
 logger = logging.getLogger('simple_example')
 logger.setLevel(logging.DEBUG)
 console = logging.StreamHandler()
@@ -110,3 +111,35 @@ def remove_from_wishlist(request):
         return Response({"message": "Item removed from wishlist"}, status=status.HTTP_200_OK)
     except Wishlist.DoesNotExist:
         return Response({"error": "Item not found in wishlist"}, status=status.HTTP_404_NOT_FOUND)
+    
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def update_cart_quantity(request):
+    try:
+        # Fetch item by ID
+        email = request.data.get('email')
+        product_id = request.data.get('product')
+        new_quantity = request.data.get('quantity')
+
+        try:
+            user = User.objects.get(email=email)
+            product = ElectronicProduct.objects.get(id=product_id)
+        except User.DoesNotExist:
+            return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+        except ElectronicProduct.DoesNotExist:
+            return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Check if item exists
+        cart_item = Wishlist.objects.get(user=user, product=product)
+        cart_item.quantity = new_quantity
+        cart_item.save()
+
+        # Serialize updated cart item
+        serializer = WishlistSerializer(cart_item)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Wishlist.DoesNotExist:
+        return Response({'error': 'Cart item not found.'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)

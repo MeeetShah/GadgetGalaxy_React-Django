@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { apis } from '../api';
+import { Link } from 'react-router-dom';
 
 const Displayspecific = () => {
 
@@ -52,11 +53,11 @@ const Displayspecific = () => {
                                                         <div className="bg-image hover-zoom ripple rounded ripple-surface">
                                                             <img src={product.image}
                                                                 className="w-100" />
-                                                            <a href="#!">
+                                                            <Link to="#!">
                                                                 <div className="hover-overlay">
                                                                     <div className="mask" style={{ backgroundColor: 'rgba(253, 253, 253, 0.15)' }}></div>
                                                                 </div>
-                                                            </a>
+                                                            </Link>
                                                         </div>
                                                     </div>
                                                     <div className="col-md-6 col-lg-6 col-xl-6">

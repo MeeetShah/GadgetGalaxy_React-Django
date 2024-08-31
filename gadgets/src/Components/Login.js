@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { apis } from '../api';
 import { login } from '../features/products';
 import { useDispatch, useSelector } from 'react-redux';
@@ -94,7 +94,7 @@ const Login = () => {
                                         </div>
 
                                         <p className="text-center text-muted mt-5 mb-0">
-                                            Not Have an account? <a href="#!" onClick={gotosignup} className="fw-bold text-body"><u>Create a New Account here</u></a>
+                                            Not Have an account? <Link to="/" onClick={gotosignup} className="fw-bold text-body"><u>Create a New Account here</u></Link>
                                         </p>
                                     </form>
                                     {message && <p>{message}</p>}

@@ -40,6 +40,7 @@ class ElectronicProduct(models.Model):
 class Wishlist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(ElectronicProduct, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
     added_on = models.DateTimeField(auto_now_add=True)
 
     class Meta:

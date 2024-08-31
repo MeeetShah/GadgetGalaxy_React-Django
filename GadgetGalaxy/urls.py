@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 from products.views import ProductListView 
 from products.views import ElectronicProductViewSet
 from products.views import add_to_wishlist
-from products.views import get_wishlist_by_email, remove_from_wishlist
+from products.views import get_wishlist_by_email, remove_from_wishlist,update_cart_quantity
 
 
 urlpatterns = [
@@ -31,7 +31,9 @@ urlpatterns = [
     path('api/electronics/', ElectronicProductViewSet.as_view(), name='electronics-list'),
     path('wishlist/add/', add_to_wishlist, name='add-to-wishlist'),
     path('wishlist/', get_wishlist_by_email, name='get-wishlist-by-email'),
-    path('wishlist/remove/', remove_from_wishlist, name='remove-from-wishlist'), 
+    path('wishlist/remove/', remove_from_wishlist, name='remove-from-wishlist'),
+    path('update-cart-quantity/', update_cart_quantity, name='update_cart_quantity'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
