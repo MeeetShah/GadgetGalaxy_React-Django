@@ -1,5 +1,5 @@
 
-import React, { useEffect ,useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -44,7 +44,7 @@ const Allproducts = () => {
                         <div className="card-body">
                             <h5 className="card-title">{product.name}</h5>
                             <p className="card-text">{product.description}</p>
-                            <button className="btn btn-primary" onClick={()=>gotoitem(product.id)}>Go To Products</button>
+                            <button className="btn btn-primary" onClick={() => gotoitem(product.id)}>Go To Products</button>
                         </div>
                     </div>
                 </div>

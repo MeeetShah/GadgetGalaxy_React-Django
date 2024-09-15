@@ -3,15 +3,18 @@ from django.shortcuts import render
 
 # Create your views here.
 
-from .models import Product,ElectronicProduct,Wishlist
+from .models import Product,ElectronicProduct,Wishlist,UserDetail
 from .serializers import ProductSerializer,ElectronicProductSerializer
 from rest_framework.permissions import AllowAny
 from rest_framework import viewsets,status,generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from .serializers import WishlistSerializer
+from .serializers import WishlistSerializer,UserDetailSerializer
 from django.contrib.auth.models import User
+from rest_framework import status
+
+
 
 
 logger = logging.getLogger('simple_example')
@@ -143,3 +146,19 @@ def update_cart_quantity(request):
         return Response({'error': 'Cart item not found.'}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    
+
+
+
+
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def create_user_detail(request):
+    if request.method == 'POST':
+        serializer = UserDetailSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

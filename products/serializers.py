@@ -26,3 +26,10 @@ class WishlistSerializer(serializers.ModelSerializer):
 
 
 
+
+from .models import UserDetail
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserDetail
+        fields = '__all__'

@@ -21,8 +21,8 @@ from django.conf.urls.static import static
 from products.views import ProductListView 
 from products.views import ElectronicProductViewSet
 from products.views import add_to_wishlist
-from products.views import get_wishlist_by_email, remove_from_wishlist,update_cart_quantity
-
+from products.views import get_wishlist_by_email, remove_from_wishlist,update_cart_quantity,create_user_detail
+from products.payments import create_order, payment_callback
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,6 +33,9 @@ urlpatterns = [
     path('wishlist/', get_wishlist_by_email, name='get-wishlist-by-email'),
     path('wishlist/remove/', remove_from_wishlist, name='remove-from-wishlist'),
     path('update-cart-quantity/', update_cart_quantity, name='update_cart_quantity'),
+    path('create-user/', create_user_detail, name='create_user_detail'),
+    path('api/create-order/', create_order, name='create-order'),
+    path('api/payment-callback/', payment_callback, name='payment-callback'), 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

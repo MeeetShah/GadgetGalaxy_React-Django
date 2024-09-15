@@ -1,4 +1,3 @@
-
 import './App.css';
 import Login from './Components/Login';
 import Navbar from './Components/Navbar';
@@ -9,11 +8,12 @@ import Displayspecific from './Components/Displayspecific';
 import Contactus from './Components/Contactus';
 import Cartpage from './Components/Cartpage';
 import LogoutButton from './Components/Logout';
+import Customerdetails from './Components/Customerdetails';
+import Checkout from './Components/Checkout';
 
 function App() {
   return (
     <>
-
       <Router>
         <Navbar />
         <Routes>
@@ -24,10 +24,11 @@ function App() {
           <Route path="/logout" element={<LogoutButton />}></Route>
           <Route path="/cart" element={<Cartpage />}></Route>
           <Route path="/specificproduct" element={<Displayspecific />}></Route>
+          <Route path="/checkout" element={<Checkout />}></Route>
+          <Route path="/card" element={<Checkout />}></Route>
         </Routes>
       </Router>
     </>
-
   );
 }
 
