@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AlertBox from "./AlertBox";
 import "../Checkout.css";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { apis } from "../api";
@@ -45,6 +45,8 @@ const Checkout = () => {
     customer: true,
     payment: true,
   });
+  const { state } = useLocation();
+  console.log("finalCheckout orderDetails", state);
 
   useEffect(() => {
     isAddressAvailable = currentUserCustomerDetails?.address || false;
@@ -376,17 +378,16 @@ const Checkout = () => {
         <div className="checkout-right">
           <div className="order-details">
             <h3>Order Details</h3>
-            <div className="order-item">
-              <p>Product 1</p>
-              <p>$100</p>
-            </div>
-            <div className="order-item">
-              <p>Product 2</p>
-              <p>$200</p>
-            </div>
+            {state?.finalProductList.map((productObj) => (
+              <div className="order-item">
+                <p>{productObj?.name}</p>
+                <p>$ {productObj?.totalAmountOfProduct}</p>
+              </div>
+            ))}
+
             <div className="order-total">
               <p>Total:</p>
-              <p>$300</p>
+              <p>$ {state?.finalAmountToPay || 0.0}</p>
             </div>
           </div>
         </div>

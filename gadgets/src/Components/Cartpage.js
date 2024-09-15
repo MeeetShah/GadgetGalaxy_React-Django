@@ -44,7 +44,12 @@ const Cartpage = () => {
   };
 
   const gotocart = () => {
-    navigate("/card");
+    navigate("/card", {
+      state: {
+        finalAmountToPay: finalAmountToPay,
+        finalProductList: finalProductList,
+      },
+    });
   };
 
   useEffect(() => {
@@ -271,7 +276,7 @@ const Cartpage = () => {
               </div>
             </div>
           </div>
-          {console.log("finalProductList", finalProductList)}
+
           <div className="checkout-right col-md-4">
             <div className="card mb-4">
               <div className="card-header py-3">
@@ -279,7 +284,6 @@ const Cartpage = () => {
               </div>
               <div className="card-body">
                 <ul className="list-group list-group-flush">
-                  {console.log("finalProductList", finalProductList)}
                   {finalProductList.map((productObj) => (
                     <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                       {productObj?.name}
