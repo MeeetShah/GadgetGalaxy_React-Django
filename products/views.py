@@ -13,6 +13,10 @@ from rest_framework.decorators import api_view, permission_classes
 from .serializers import WishlistSerializer,UserDetailSerializer
 from django.contrib.auth.models import User
 from rest_framework import status
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import get_object_or_404
+import json
 
 
 
@@ -38,6 +42,12 @@ class ElectronicProductViewSet(generics.ListAPIView):
     queryset = ElectronicProduct.objects.all()
     serializer_class = ElectronicProductSerializer
     permission_classes = [AllowAny] 
+
+class customerdetailsviewset(generics.ListAPIView):
+    queryset = UserDetail.objects.all()
+    serializer_class = UserDetailSerializer
+    permission_classes = [AllowAny] 
+
 
 
 
@@ -148,11 +158,6 @@ def update_cart_quantity(request):
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
 
-
-
-
-
-
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def create_user_detail(request):
@@ -162,3 +167,24 @@ def create_user_detail(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def update_user_details(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        email = data.get('email')
+        user = get_object_or_404(UserDetail, email=email)
+
+        # Update the user details
+        user.name = data.get('name', user.name)
+        user.pincode = data.get('pincode', user.pincode)
+        user.mobile = data.get('mobile', user.mobile)
+        user.address = data.get('address', user.address)
+        user.city = data.get('city', user.city)
+        user.state = data.get('state', user.state)
+        
+        user.save()
+        return JsonResponse({'message': 'User details updated successfully.'})
+    return JsonResponse({'error': 'Invalid request method.'}, status=400)
+    

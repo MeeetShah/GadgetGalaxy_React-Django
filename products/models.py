@@ -53,7 +53,7 @@ class UserDetail(models.Model):
     name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     pincode = models.CharField(max_length=6)
-    mobile_number = models.CharField(max_length=15)
+    mobile = models.CharField(max_length=15)
     address = models.TextField()
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)

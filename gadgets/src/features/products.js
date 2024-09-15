@@ -6,6 +6,7 @@ const initialState = {
   login: localStorage.getItem("email"),
   specificproducts: [],
   cart: {},
+  customerdetails:[]
 };
 
 export const todoSlice = createSlice({
@@ -33,10 +34,13 @@ export const todoSlice = createSlice({
     cart: (state, action) => {
       state.cart = action.payload;
     },
+    customerdetails:(state,action)=>{
+        state.customerdetails = action.payload
+    }
   },
 });
 
-export const { storeProducts, specificproduct, cart, login, logout } =
+export const { storeProducts, specificproduct, cart, login, logout,customerdetails } =
   todoSlice.actions;
 
 export default todoSlice.reducer;

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { apis } from "../api";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
@@ -23,6 +23,8 @@ const Cartpage = () => {
   const cartitems = useSelector((state) => state.cart) || []; // Ensure this is always an array
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [finalAmountToPay, setFinalAmountToPay] = useState(0.0);
+  const [finalProductList, setFinalProductList] = useState([]);
 
   const fetchCartItems = async () => {
     console.log("Fetching cart items for email:", email);
@@ -50,6 +52,26 @@ const Cartpage = () => {
       fetchCartItems(); // Fetch cart items when email is available
     }
   }, [email]);
+
+  useEffect(() => {
+    let totalAmount = 0.0;
+    let finalProduct = [];
+    cartitems?.length &&
+      cartitems?.map((item) => {
+        const productDetails = specificproduct?.find((product) => {
+          if (product.id === item.product) {
+            totalAmount += item.quantity * product.price;
+            finalProduct.push({
+              name: product.name,
+              quantity: item.quantity,
+              totalAmountOfProduct: (item.quantity * product.price).toFixed(2),
+            });
+          }
+        });
+      });
+    setFinalAmountToPay(parseFloat(totalAmount).toFixed(2));
+    setFinalProductList(finalProduct);
+  }, [cartitems]);
 
   console.log("Cart items i have:", cartitems);
   console.log("specific items i have:", specificproduct);
@@ -86,7 +108,7 @@ const Cartpage = () => {
         product: id,
         quantity: quantity,
       });
-      const updatedCart = cartitems.map((item) =>
+      const updatedCart = cartitems?.map((item) =>
         item.product === id ? { ...item, quantity: quantity } : item
       );
 
@@ -112,8 +134,8 @@ const Cartpage = () => {
                 <h5 className="mb-0">Your Cart</h5>
               </div>
               <div className="card-body">
-                {cartitems.length > 0 ? (
-                  cartitems.map((item) => {
+                {cartitems?.length > 0 ? (
+                  cartitems?.map((item) => {
                     const productDetails = specificproduct?.find(
                       (product) => product.id === item.product
                     );
@@ -158,19 +180,12 @@ const Cartpage = () => {
                           >
                             <FontAwesomeIcon icon={faTrash} />
                           </button>
-                          <button
-                            type="button"
-                            className="btn btn-danger btn-sm mb-2"
-                            title="Move to the wish list"
-                          >
-                            <FontAwesomeIcon icon={faHeart} />
-                          </button>
                         </div>
 
                         <div className="col-lg-4 col-md-6 mb-4 mb-lg-0">
                           <div
                             className="d-flex mb-4"
-                            style={{ maxWidth: "300px" }}
+                            style={{ maxWidth: "300px", maxHeight: "50px" }}
                           >
                             <button
                               className="btn btn-primary px-3 me-2"
@@ -212,7 +227,12 @@ const Cartpage = () => {
                           </div>
 
                           <p className="text-start text-md-center">
-                            <strong>${productDetails.price || "0.00"}</strong>
+                            <strong>
+                              $
+                              {(productDetails.price * item.quantity).toFixed(
+                                2
+                              ) || "0.00"}
+                            </strong>
                           </p>
                         </div>
                         <hr className="my-4" />
@@ -251,7 +271,7 @@ const Cartpage = () => {
               </div>
             </div>
           </div>
-
+          {console.log("finalProductList", finalProductList)}
           <div className="checkout-right col-md-4">
             <div className="card mb-4">
               <div className="card-header py-3">
@@ -259,36 +279,34 @@ const Cartpage = () => {
               </div>
               <div className="card-body">
                 <ul className="list-group list-group-flush">
-                  <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                    Products
-                    <span>$53.98</span>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between align-items-center px-0">
-                    Shipping
-                    <span>Gratis</span>
-                  </li>
+                  {console.log("finalProductList", finalProductList)}
+                  {finalProductList.map((productObj) => (
+                    <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                      {productObj?.name}
+                      <span>${productObj?.totalAmountOfProduct}</span>
+                    </li>
+                  ))}
                   <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                     <div>
                       <strong>Total amount</strong>
-                      <strong>
-                        <p className="mb-0">(including VAT)</p>
-                      </strong>
                     </div>
                     <span>
-                      <strong>$53.98</strong>
+                      <strong>$ {finalAmountToPay}</strong>
                     </span>
                   </li>
                 </ul>
 
-                <button
-                  type="button"
-                  data-mdb-button-init
-                  data-mdb-ripple-init
-                  className="btn btn-primary btn-lg btn-block"
-                  onClick={gotocart}
-                >
-                  Go to checkout
-                </button>
+                {finalAmountToPay > 0 && (
+                  <button
+                    type="button"
+                    data-mdb-button-init
+                    data-mdb-ripple-init
+                    className="btn btn-primary btn-lg btn-block"
+                    onClick={gotocart}
+                  >
+                    Go to checkout
+                  </button>
+                )}
               </div>
             </div>
           </div>
