@@ -12,6 +12,7 @@ import Customerdetails from "./Components/Customerdetails";
 import Checkout from "./Components/Checkout";
 import { useSelector } from "react-redux";
 
+
 function App() {
   const login = useSelector((state) => state.login);
   return (

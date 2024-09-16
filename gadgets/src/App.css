@@ -64,3 +64,77 @@ h2 {
 .submit-button:hover {
   background-color: #0056b3;
 }
+
+/* All products CSS */
+/* General card styling */
+.product-card {
+  width: 18rem;
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  background-color: #f8f9fa;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Image styling */
+.product-card img {
+  height: 15rem;
+  object-fit: cover;
+  border-bottom: 2px solid #007bff;
+}
+
+/* Card body styling */
+.product-card .card-body {
+  padding: 1rem;
+  text-align: center;
+}
+
+/* Title styling */
+.product-card .card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #343a40;
+}
+
+/* Text styling */
+.product-card .card-text {
+  font-size: 1rem;
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+/* Button styling */
+.btn-primary {
+  background-color: #28a745;
+  border: none;
+  width: 100%;
+  padding: 0.5rem 0;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #218838;
+}
+
+/* Card shadow and hover effect */
+.card {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+body {
+  background-color:#f7f3e9; /* Light gray */
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
