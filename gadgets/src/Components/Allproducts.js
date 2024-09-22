@@ -5,6 +5,7 @@ import axios from "axios";
 import { apis } from "../api";
 import { specificproduct } from "../features/products";
 import Displayspecific from "./Displayspecific";
+import Footer from "./Footer";
 
 const Allproducts = () => {
   const products = useSelector((state) => state.products); // Access products from the Redux store
@@ -55,6 +56,7 @@ const Allproducts = () => {
             </div>
           </div>
         ))}
+        
     </div>
   );
 };

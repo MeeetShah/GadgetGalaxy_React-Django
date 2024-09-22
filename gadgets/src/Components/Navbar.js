@@ -8,9 +8,28 @@ const Navbar = () => {
   const navigate = useNavigate();
   const login = useSelector((state) => state.login);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
 
   const gotoitem = (id) => {
     navigate("/specificproduct", { state: { key: id } });
+  };
+
+  const handleSearchChange = (event) => {
+    const value = event.target.value;
+    setSearchInput(value);
+
+    // Filter products based on the search input
+    const filteredSuggestions = names.filter((product) =>
+      product.name.toLowerCase().startsWith(value.toLowerCase())
+    );
+    setSuggestions(filteredSuggestions);
+  };
+
+  const handleSuggestionClick = (id) => {
+    gotoitem(id);
+    setSearchInput(""); // Clear the input after selection
+    setSuggestions([]); // Clear suggestions
   };
 
   return (
@@ -18,7 +37,7 @@ const Navbar = () => {
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
-          <i class="fa-brands fa-gg-circle"></i> GadgetGalaxy
+            <i class="fa-brands fa-gg-circle"></i> GadgetGalaxy
           </Link>
           <button
             className="navbar-toggler"
@@ -73,16 +92,35 @@ const Navbar = () => {
                     ))}
                 </ul>
               </li>
-              <form className="d-flex ms-3" role="search">
+              <form
+                className="d-flex ms-3"
+                role="search"
+                style={{ position: "relative" }}
+              >
                 <input
                   className="form-control me-2"
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
+                  value={searchInput}
+                  onChange={handleSearchChange}
                 />
                 <button className="btn btn-outline-success" type="submit">
                   <i className="fas fa-search"></i> Search
                 </button>
+                {suggestions.length > 0 && (
+                  <ul className="dropdown-menu show">
+                    {suggestions.map((suggestion) => (
+                      <li
+                        key={suggestion.id}
+                        className="dropdown-item"
+                        onClick={() => handleSuggestionClick(suggestion.id)}
+                      >
+                        {suggestion.name}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </form>
             </ul>
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">

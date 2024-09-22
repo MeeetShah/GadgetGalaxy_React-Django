@@ -1,42 +1,37 @@
-import React, { useEffect, useState } from 'react'
-import Allproducts from './Allproducts'
-import axios from 'axios'
-import { apis } from '../api'
-import { useDispatch, useSelector } from 'react-redux'
-import { storeProducts } from '../features/products'
+import React, { useEffect, useState } from "react";
+import Allproducts from "./Allproducts";
+import axios from "axios";
+import { apis } from "../api";
+import { useDispatch, useSelector } from "react-redux";
+import { storeProducts } from "../features/products";
+import Footer from "./Footer";
 
 const Home = () => {
+  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    // Fetch products from the Django backend
+    axios
+      .get(apis.allproductapi)
+      .then((response) => {
+        dispatch(storeProducts(response.data)); //storing all data to the store
+      })
+      .catch((error) => {
+        setError(error.message); // Handle error if the request fails
+      });
+  }, []); // Empty dependency array means this effect runs once after the initial render
 
-    const [error, setError] = useState(null);
-    const dispatch = useDispatch();
+  if (error) return <p>Error: {error}</p>;
 
-
-
-
-    useEffect(() => {
-        // Fetch products from the Django backend
-        axios.get(apis.allproductapi)
-            .then(response => {
-                dispatch(storeProducts(response.data));//storing all data to the store
-            })
-            .catch(error => {
-                setError(error.message); // Handle error if the request fails
-            });
-    }, []); // Empty dependency array means this effect runs once after the initial render
-
-    if (error) return <p>Error: {error}</p>;
-
-    return (
-        <>
-            <div className='container'>
-                {/* <h1>Product List</h1> */}
-                <Allproducts /> {/* No props needed here */}
-            </div>
-
-
-        </>
-    )
-}
-export default Home
-
+  return (
+    <>
+      <div className="container">
+        {/* <h1>Product List</h1> */}
+        <Allproducts /> {/* No props needed here */}
+      </div>
+      <Footer />
+    </>
+  );
+};
+export default Home;

@@ -1,0 +1,83 @@
+.about-us-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .about-banner {
+    background-color: #f7f3e9;
+    text-align: center;
+    padding: 50px 20px;
+    border-radius: 10px;
+  }
+  
+  .about-banner h1 {
+    font-size: 48px;
+    color: #333;
+  }
+  
+  .about-banner p {
+    font-size: 24px;
+    color: #555;
+  }
+  
+  .about-content {
+    margin: 40px 0;
+  }
+  
+  .about-content h2 {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .about-content p, .about-content ul {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #555;
+  }
+  
+  .about-content ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+  
+  .about-content ul li {
+    margin-bottom: 10px;
+  }
+  
+  .about-team {
+    margin: 40px 0;
+  }
+  
+  .about-team h2 {
+    font-size: 32px;
+    color: #333;
+  }
+  
+  .about-footer {
+    background-color: #f7f3e9;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+  }
+  
+  .about-footer h2 {
+    font-size: 32px;
+    color: #333;
+  }
+  
+  .about-footer p {
+    font-size: 18px;
+    color: #555;
+  }
+  
+  .about-footer a {
+    color: #007BFF;
+    text-decoration: none;
+  }
+  
+  .about-footer a:hover {
+    text-decoration: underline;
+  }
+  

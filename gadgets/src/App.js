@@ -11,7 +11,7 @@ import LogoutButton from "./Components/Logout";
 import Customerdetails from "./Components/Customerdetails";
 import Checkout from "./Components/Checkout";
 import { useSelector } from "react-redux";
-
+import AboutUs from "./Components/Aboutus";
 
 function App() {
   const login = useSelector((state) => state.login);
@@ -21,7 +21,9 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />}></Route>
-          <Route path="/contact" element={<Customerdetails />}></Route>
+          <Route path="/contact" element={<Contactus />}></Route>
+          <Route path="/about" element={<AboutUs />}></Route>
+
           <Route path="/login" element={<Login />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
           <Route path="/logout" element={<LogoutButton />}></Route>

@@ -100,7 +100,14 @@ const Displayspecific = () => {
                             <div className="row">
                               <div className="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
                                 <div className="bg-image hover-zoom ripple rounded ripple-surface">
-                                  <img src={product.image} className="w-100" />
+                                  <img
+                                    src={product.image}
+                                    style={{
+                                      maxHeight: "200px",
+                                      maxWidth: "200px",
+                                    }}
+                                    className="w-100"
+                                  />
                                   <Link to="#!">
                                     <div className="hover-overlay">
                                       <div
@@ -121,22 +128,19 @@ const Displayspecific = () => {
                                 </p>
 
                                 <div className="mt-1 mb-0 text-muted small">
-                                  <span>100% cotton</span>
-                                  <span className="text-primary"> • </span>
-                                  <span>Light weight</span>
-                                  <span className="text-primary"> • </span>
-                                  <span>
-                                    Best finish
-                                    <br />
-                                  </span>
+                                  <span>{product.brand}</span>
+                                 
+                                 
+                                  
+                                
                                 </div>
                                 <div className="mb-2 text-muted small">
-                                  <span>Unique design</span>
+                                  <span> Warrenty : {product.warranty}</span>
                                   <span className="text-primary"> • </span>
-                                  <span>For men</span>
-                                  <span className="text-primary"> • </span>
+
+                                  
                                   <span>
-                                    Casual
+                                    Stock : {product.stock}
                                     <br />
                                   </span>
                                 </div>
